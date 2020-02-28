@@ -70,7 +70,7 @@ class MainVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         cell.photo  = photos![indexPath.row]
         cell.alpha = 0
         
-        let animation = makeMoveUpWithFade(rowHeight: cell.frame.height, duration: 0.1, delayFactor: 0.05)
+        let animation = makeMoveUpWithFade(rowHeight: cell.frame.height, duration: 0.1, delayFactor: 0.01)
         let animator = Animator(animation: animation)
         animator.animate(cell: cell, at: indexPath, in: tableView)
         return cell
