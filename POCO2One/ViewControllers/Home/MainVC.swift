@@ -13,17 +13,17 @@ class MainVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var viewModel : MainVM?
     var photos:[Photos]?
     typealias Animation = (UITableViewCell, IndexPath, UITableView) -> Void
-
-
-
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         navigationItem.title = "Home"
         view.addSubview(contactsTableView)
-
+        
         contactsTableView.translatesAutoresizingMaskIntoConstraints = false
         
         contactsTableView.topAnchor.constraint(equalTo:view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -44,13 +44,13 @@ class MainVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             else
             {
                 // success
-                                
+                
                 if let photos = response?.photos{
                     // sorting photos on basis on rating
                     self.photos = photos.sorted(by: {$0.rating! > $1.rating!})
                     self.contactsTableView.reloadData()
                 }
-
+                
             }
         })
         let bundle = Bundle(for: type(of: self))
@@ -59,7 +59,7 @@ class MainVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     
-   
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photos?.count ?? 0
@@ -69,7 +69,7 @@ class MainVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewCell") as! tableViewCell
         cell.photo  = photos![indexPath.row]
         cell.alpha = 0
-
+        
         let animation = makeMoveUpWithFade(rowHeight: cell.frame.height, duration: 0.1, delayFactor: 0.05)
         let animator = Animator(animation: animation)
         animator.animate(cell: cell, at: indexPath, in: tableView)
@@ -90,7 +90,7 @@ class MainVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         return { cell, indexPath, _ in
             cell.transform = CGAffineTransform(translationX: 0, y: rowHeight / 2)
             cell.alpha = 0
-
+            
             UIView.animate(
                 withDuration: duration,
                 delay: delayFactor * Double(indexPath.row),
@@ -101,6 +101,6 @@ class MainVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             })
         }
     }
-
+    
 }
 
