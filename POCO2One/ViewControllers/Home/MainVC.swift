@@ -7,11 +7,12 @@
 //
 
 import UIKit
-
+import CoreData
 class MainVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    let contactsTableView = UITableView() // view
+    let tableView = UITableView() // view
     var viewModel : MainVM?
     var photos:[Photos]?
+    var coreDataPhoto:[Photo]?
     typealias Animation = (UITableViewCell, IndexPath, UITableView) -> Void
     
     
@@ -22,17 +23,17 @@ class MainVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         navigationItem.title = "Home"
-        view.addSubview(contactsTableView)
+        view.addSubview(tableView)
         
-        contactsTableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        contactsTableView.topAnchor.constraint(equalTo:view.safeAreaLayoutGuide.topAnchor).isActive = true
-        contactsTableView.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor).isActive = true
-        contactsTableView.rightAnchor.constraint(equalTo:view.safeAreaLayoutGuide.rightAnchor).isActive = true
-        contactsTableView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo:view.safeAreaLayoutGuide.topAnchor).isActive = true
+        tableView.leftAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leftAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo:view.safeAreaLayoutGuide.rightAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
-        self.contactsTableView.dataSource = self
-        self.contactsTableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         
         viewModel = MainVM()
         viewModel?.getPopularPhotos(completionHandler: { (response) in
@@ -46,28 +47,76 @@ class MainVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 // success
                 
                 if let photos = response?.photos{
-                    // sorting photos on basis on rating
-                    self.photos = photos.sorted(by: {$0.rating! > $1.rating!})
-                    self.contactsTableView.reloadData()
+                    self.savePhotosToCoreData(photos:photos)
+                    self.printData()
                 }
                 
             }
         })
         let bundle = Bundle(for: type(of: self))
         let nib = UINib(nibName: "tableViewCell", bundle: bundle)
-        contactsTableView.register(nib, forCellReuseIdentifier: "tableViewCell")
+        tableView.register(nib, forCellReuseIdentifier: "tableViewCell")
     }
     
     
+    func savePhotosToCoreData(photos:[Photos]) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+        let managedContext = appDelegate.persistentContainer.viewContext
+        guard let entity = NSEntityDescription.entity(forEntityName: "Photo", in: managedContext) else{return}
+        
+        for item in photos {
+            let photo = Photo(entity: entity, insertInto: managedContext)
+            photo.name = item.name
+            photo.descri = item.description
+            photo.imageUrl = item.image_url?.first
+            photo.location = item.location
+            photo.camera = item.camera
+            photo.lens = item.lens
+            photo.rating = item.rating ?? 0.0
+            if let user = item.user{
+                photo.userName = user.username
+                photo.userAbout = user.about
+                photo.userImageUrl = user.avatars?.large?.https
+                
+            }
+            if let lat = item.latitude {
+                photo.latitude = lat
+            }
+            if let long = item.longitude {
+                photo.latitude = long
+            }
+            if let rating = item.rating {
+                photo.latitude = rating
+            }
+        }
+        
+    }
+    
+    func printData() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
+        
+        do{
+            let photos = try managedContext.fetch(fetchRequest) as? [Photo]
+            // sort the photos on basis of rating
+            self.coreDataPhoto = photos!.sorted(by: {$0.rating > $1.rating})
+            self.tableView.reloadData()
+
+        }catch{
+            print("some thing went wrong")
+        }
+    }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photos?.count ?? 0
+        return coreDataPhoto?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewCell") as! tableViewCell
-        cell.photo  = photos![indexPath.row]
+        cell.pos = indexPath.row
+        cell.phto  = coreDataPhoto?[indexPath.row]
         cell.alpha = 0
         
         let animation = makeMoveUpWithFade(rowHeight: cell.frame.height, duration: 0.1, delayFactor: 0.01)
@@ -82,7 +131,16 @@ class MainVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailsVC : DetailsVC = DetailsVC.init(nibName: "DetailsView", bundle: nil)
-        detailsVC.photo = photos![indexPath.row]
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
+        
+        do{
+            coreDataPhoto = try managedContext.fetch(fetchRequest) as? [Photo]
+        }catch{
+            print("some thing went wrong")
+        }
+        detailsVC.photo = coreDataPhoto![indexPath.row]
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
     

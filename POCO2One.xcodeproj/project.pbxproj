@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D0CD9F0240A4588007D3B17 /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0CD9ED240A4588007D3B17 /* Photo+CoreDataClass.swift */; };
+		4D0CD9F1240A4588007D3B17 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D0CD9EE240A4588007D3B17 /* Photo+CoreDataProperties.swift */; };
+		4D2B4CDD240A0E2700875E07 /* O2OnePoc.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4D2B4CDB240A0E2700875E07 /* O2OnePoc.xcdatamodeld */; };
 		4D335C802407B18D00587BFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D335C7F2407B18D00587BFA /* AppDelegate.swift */; };
 		4D335C892407B1A100587BFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D335C882407B1A100587BFA /* Assets.xcassets */; };
 		4D335C8C2407B1A100587BFA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D335C8A2407B1A100587BFA /* LaunchScreen.storyboard */; };
@@ -36,6 +39,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4D0CD9ED240A4588007D3B17 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		4D0CD9EE240A4588007D3B17 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4D2B4CDC240A0E2700875E07 /* O2OnePoc.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = O2OnePoc.xcdatamodel; sourceTree = "<group>"; };
 		4D335C7C2407B18D00587BFA /* POCO2One.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = POCO2One.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D335C7F2407B18D00587BFA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4D335C882407B1A100587BFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -77,6 +83,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D0CD9F2240A66F4007D3B17 /* CoreDataEnities */ = {
+			isa = PBXGroup;
+			children = (
+				4D0CD9ED240A4588007D3B17 /* Photo+CoreDataClass.swift */,
+				4D0CD9EE240A4588007D3B17 /* Photo+CoreDataProperties.swift */,
+			);
+			path = CoreDataEnities;
+			sourceTree = "<group>";
+		};
 		4D335C732407B18D00587BFA = {
 			isa = PBXGroup;
 			children = (
@@ -96,6 +111,7 @@
 		4D335C7E2407B18D00587BFA /* POCO2One */ = {
 			isa = PBXGroup;
 			children = (
+				4D0CD9F2240A66F4007D3B17 /* CoreDataEnities */,
 				4D793B7024082BB900934FAF /* Utils */,
 				4D793B6D2408238100934FAF /* Extensions */,
 				4D335CA22407CE2800587BFA /* CustomViews */,
@@ -106,6 +122,7 @@
 				4D335C882407B1A100587BFA /* Assets.xcassets */,
 				4D335C8A2407B1A100587BFA /* LaunchScreen.storyboard */,
 				4D335C8D2407B1A100587BFA /* Info.plist */,
+				4D2B4CDB240A0E2700875E07 /* O2OnePoc.xcdatamodeld */,
 			);
 			path = POCO2One;
 			sourceTree = "<group>";
@@ -269,6 +286,7 @@
 				4D335CBA2407D72900587BFA /* Photos.swift in Sources */,
 				4D793B662407F93A00934FAF /* DetailsVC.swift in Sources */,
 				4D3B62DA2407EC9D006514AD /* tableViewCell.swift in Sources */,
+				4D0CD9F1240A4588007D3B17 /* Photo+CoreDataProperties.swift in Sources */,
 				4D335CBB2407D72900587BFA /* User.swift in Sources */,
 				4D793B682407F94900934FAF /* DetailsVM.swift in Sources */,
 				4D335CB92407D72900587BFA /* Large.swift in Sources */,
@@ -276,8 +294,10 @@
 				4D335CB72407D72900587BFA /* Fill_switch.swift in Sources */,
 				4D335C962407BAE500587BFA /* NetworkManager.swift in Sources */,
 				4D335CBE2407D72900587BFA /* Filters.swift in Sources */,
+				4D0CD9F0240A4588007D3B17 /* Photo+CoreDataClass.swift in Sources */,
 				4D793B6F2408239600934FAF /* Exnteniosn.swift in Sources */,
 				4D335CB62407D72900587BFA /* Avatars.swift in Sources */,
+				4D2B4CDD240A0E2700875E07 /* O2OnePoc.xcdatamodeld in Sources */,
 				4D335CBC2407D72900587BFA /* Default.swift in Sources */,
 				4D335CBF2407D72900587BFA /* Small.swift in Sources */,
 				4D335CB82407D72900587BFA /* Tiny.swift in Sources */,
@@ -476,6 +496,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4D2B4CDB240A0E2700875E07 /* O2OnePoc.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4D2B4CDC240A0E2700875E07 /* O2OnePoc.xcdatamodel */,
+			);
+			currentVersion = 4D2B4CDC240A0E2700875E07 /* O2OnePoc.xcdatamodel */;
+			path = O2OnePoc.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4D335C742407B18D00587BFA /* Project object */;
 }

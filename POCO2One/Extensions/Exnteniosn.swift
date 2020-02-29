@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIImageView {
-public func imageFromServerURL(urlString: String) {
+    public func imageFromServerURL(urlString: String) {
     let imageCache = NSCache<NSString, UIImage>() // caching images with url key
     if let cachedImage = imageCache.object(forKey: NSString(string: urlString)) {
         self.image = cachedImage
